@@ -12,6 +12,6 @@ public class RegistroPagamento {
 	private RegistroPagamento() {}
 	
 	public static void registraPagamento(BigDecimal valor) {
-		logger.info(String.format("Pagamento em dinheiro do valor %.2f registrado na base...", valor.toString()));
+		logger.info(String.format("Pagamento em dinheiro do valor %.2f registrado na base...", valor.floatValue()));
 	}
 }

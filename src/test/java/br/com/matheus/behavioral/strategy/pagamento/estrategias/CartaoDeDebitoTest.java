@@ -44,11 +44,11 @@ class CartaoDeDebitoTest {
 	void deveChamarAIntegracaoComAAPIDoBanco() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		try (MockedStatic<IntegracaoBancoApi> integracaoBancoApiMock = Mockito.mockStatic(IntegracaoBancoApi.class)) {
 			integracaoBancoApiMock
-						.when(() -> IntegracaoBancoApi.simulaTransacao(BigDecimal.TEN, cartaoDeDebito))
+						.when(() -> IntegracaoBancoApi.realizaTransacaoCartao(BigDecimal.TEN, cartaoDeDebito))
 						.thenReturn(responseEntityMock);
 			Mockito.when(responseEntityMock.getBody()).thenReturn("");
 			cartaoDeDebito.processar(BigDecimal.TEN);
-			integracaoBancoApiMock.verify(() -> IntegracaoBancoApi.simulaTransacao(BigDecimal.TEN, cartaoDeDebito));
+			integracaoBancoApiMock.verify(() -> IntegracaoBancoApi.realizaTransacaoCartao(BigDecimal.TEN, cartaoDeDebito));
 		}
 	}
 }

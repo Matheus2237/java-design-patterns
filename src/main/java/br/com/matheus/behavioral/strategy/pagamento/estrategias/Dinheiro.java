@@ -8,12 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Dinheiro implements PagamentoStrategy {
     
-	private static final String MENSAGEM_PAGAMENTO_CONCLUIDO = """
-
+	private static final String MENSAGEM_PAGAMENTO_CONCLUIDO ="""
+			
 			Pagamento realizado!
 			  Valor pago: R$ %.2f
 			  Modalidade: Dinheiro
-
 			""";
 
     @Override

@@ -12,7 +12,7 @@ public class CartaoDeDebito implements PagamentoStrategy {
 
     @Override
     public void processar(BigDecimal valor) {
-		ResponseEntity<String> transacao = IntegracaoBancoApi.simulaTransacao(valor, this);
+		ResponseEntity<String> transacao = IntegracaoBancoApi.realizaTransacaoCartao(valor, this);
 		logger.info(transacao.getBody());
     }
 }

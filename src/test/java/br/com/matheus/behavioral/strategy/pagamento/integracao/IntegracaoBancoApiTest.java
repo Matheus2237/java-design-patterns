@@ -22,8 +22,8 @@ class IntegracaoBancoApiTest {
 		Field mensagemSucessoProessamentoReflected = IntegracaoBancoApi.class.getDeclaredField("SUCESSO_PROCESSAMENTO");
 		mensagemSucessoProessamentoReflected.setAccessible(true);
 		String mensagemSucessoProessamento = (String) mensagemSucessoProessamentoReflected.get(null);
-		ResponseEntity<String> cartaoCreditoResponse = IntegracaoBancoApi.simulaTransacao(BigDecimal.TEN, Mockito.mock(CartaoDeCredito.class));
-		ResponseEntity<String> cartaoDebitoResponse = IntegracaoBancoApi.simulaTransacao(BigDecimal.TEN, Mockito.mock(CartaoDeDebito.class));
+		ResponseEntity<String> cartaoCreditoResponse = IntegracaoBancoApi.realizaTransacaoCartao(BigDecimal.TEN, Mockito.mock(CartaoDeCredito.class));
+		ResponseEntity<String> cartaoDebitoResponse = IntegracaoBancoApi.realizaTransacaoCartao(BigDecimal.TEN, Mockito.mock(CartaoDeDebito.class));
 		Assertions.assertAll(
 				() -> Assertions.assertEquals(mensagemSucessoProessamento, cartaoCreditoResponse.getBody()),
 				() -> Assertions.assertEquals(mensagemSucessoProessamento, cartaoDebitoResponse.getBody()),
@@ -38,8 +38,8 @@ class IntegracaoBancoApiTest {
 		Field mensagemTipoPagamentoInvalidoReflected = IntegracaoBancoApi.class.getDeclaredField("TIPO_PAGAMENTO_INVALIDO");
 		mensagemTipoPagamentoInvalidoReflected.setAccessible(true);
 		String mensagemTipoPagamentoInvalido = (String) mensagemTipoPagamentoInvalidoReflected.get(null);
-		ResponseEntity<String> dinheiroResponse = IntegracaoBancoApi.simulaTransacao(BigDecimal.TEN, Mockito.mock(Dinheiro.class));
-		ResponseEntity<String> pixResponse = IntegracaoBancoApi.simulaTransacao(BigDecimal.TEN, Mockito.mock(Pix.class));
+		ResponseEntity<String> dinheiroResponse = IntegracaoBancoApi.realizaTransacaoCartao(BigDecimal.TEN, Mockito.mock(Dinheiro.class));
+		ResponseEntity<String> pixResponse = IntegracaoBancoApi.realizaTransacaoCartao(BigDecimal.TEN, Mockito.mock(Pix.class));
 		Assertions.assertAll(
 				() -> Assertions.assertEquals(mensagemTipoPagamentoInvalido, dinheiroResponse.getBody()),
 				() -> Assertions.assertEquals(mensagemTipoPagamentoInvalido, pixResponse.getBody()),

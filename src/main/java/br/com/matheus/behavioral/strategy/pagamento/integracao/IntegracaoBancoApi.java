@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class IntegracaoBancoApi {
 
 	private static final String MENSAGEM_PAGAMENTO_CONCLUIDO = """
+			
 			Pagamento realizado!
 			  Valor pago: R$ %.2f
 			  Modalidade: %s
@@ -27,9 +28,9 @@ public class IntegracaoBancoApi {
 	
 	private IntegracaoBancoApi() {}
 	
-	public static ResponseEntity<String> simulaTransacao(BigDecimal valor, PagamentoStrategy estrategia) {
+		public static ResponseEntity<String> realizaTransacaoCartao(BigDecimal valor, PagamentoStrategy estrategia) {
 		try {
-            logger.info("\nProcessando pagamento...");
+            logger.info("Processando pagamento...");
             logger.info(String.format(MENSAGEM_PAGAMENTO_CONCLUIDO, valor, defineTipoCartao(estrategia)));
         } catch (TipoPagamentoImproprioException tpie) {
         	logger.error("Tipo de pagamento inválido para essa integração: ");
