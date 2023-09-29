@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 
 import br.com.matheus.behavioral.strategy.pagamento.ModalidadesDePagamento;
 import br.com.matheus.behavioral.strategy.pagamento.ProcessadorDePagamento;
+import br.com.matheus.util.ExcludeFromCodeCoverageAnalysisGenerated;
 
+@ExcludeFromCodeCoverageAnalysisGenerated
 public class Main {
 	
     public static void main(String[] args) {

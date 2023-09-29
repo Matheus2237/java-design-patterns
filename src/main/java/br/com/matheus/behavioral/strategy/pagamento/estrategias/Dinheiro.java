@@ -2,6 +2,7 @@ package br.com.matheus.behavioral.strategy.pagamento.estrategias;
 
 import java.math.BigDecimal;
 
+import br.com.matheus.behavioral.strategy.pagamento.integracao.RegistroPagamento;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -17,13 +18,8 @@ public class Dinheiro implements PagamentoStrategy {
 
     @Override
     public void processar(BigDecimal valor) {
-        try {
-        	logger.info("\nProcessando pagamento...");
-            Thread.sleep(1_000);
-            logger.info(String.format(MENSAGEM_PAGAMENTO_CONCLUIDO, valor));
-        } catch (InterruptedException ie) {
-        	logger.error("Exception caught: ", ie);
-            Thread.currentThread().interrupt();
-        }
+    	logger.info("Processando pagamento...");
+    	RegistroPagamento.registraPagamento(valor);
+    	logger.info(String.format(MENSAGEM_PAGAMENTO_CONCLUIDO, valor));
     }
 }
