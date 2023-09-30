@@ -24,11 +24,13 @@ public class IntegracaoBancoApi {
 	
 	private static final String TIPO_PAGAMENTO_INVALIDO = "Tipo de pagamento informado é inválido para essa requisição.";
 	
+	private static final String PAGAMENTO_VALOR_NEGATIVO_NULO = "Não é possível realizar a transação com valor nulo ou negativo.";
+	
 	private static final String SUCESSO_PROCESSAMENTO = "Pagamento concluído com sucesso.";
 	
 	private IntegracaoBancoApi() {}
 	
-		public static ResponseEntity<String> realizaTransacaoCartao(BigDecimal valor, PagamentoStrategy estrategia) {
+	public static ResponseEntity<String> realizaTransacaoCartao(BigDecimal valor, PagamentoStrategy estrategia) {
 		try {
             logger.info("Processando pagamento...");
             logger.info(String.format(MENSAGEM_PAGAMENTO_CONCLUIDO, valor, defineTipoCartao(estrategia)));
@@ -45,5 +47,13 @@ public class IntegracaoBancoApi {
 		else if (estrategia instanceof CartaoDeDebito)
 			return "Cartão de Débito";
 		throw new TipoPagamentoImproprioException(TIPO_PAGAMENTO_INVALIDO);
+	}
+	
+	public static ResponseEntity<String> realizaTransacaoPix(BigDecimal valor) {
+        logger.info("Processando pagamento...");
+        if (valor.floatValue() <= 0)
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(PAGAMENTO_VALOR_NEGATIVO_NULO);
+        logger.info(String.format(MENSAGEM_PAGAMENTO_CONCLUIDO, valor, "Pix"));
+		return ResponseEntity.status(HttpStatus.OK).body(SUCESSO_PROCESSAMENTO);
 	}
 }

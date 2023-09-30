@@ -47,4 +47,33 @@ class IntegracaoBancoApiTest {
 				() -> Assertions.assertEquals(HttpStatus.BAD_REQUEST, pixResponse.getStatusCode())
 		);
 	}
+	
+	@Test
+	void deveRetornarUmaRespostaHttpOkAoRealizarATransacaoComTipoDePagamentoPix()
+			throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		Field mensagemSucessoProessamentoReflected = IntegracaoBancoApi.class.getDeclaredField("SUCESSO_PROCESSAMENTO");
+		mensagemSucessoProessamentoReflected.setAccessible(true);
+		String mensagemSucessoProessamento = (String) mensagemSucessoProessamentoReflected.get(null);
+		ResponseEntity<String> pixResponse = IntegracaoBancoApi.realizaTransacaoPix(BigDecimal.TEN);
+		Assertions.assertAll(
+				() -> Assertions.assertEquals(mensagemSucessoProessamento, pixResponse.getBody()),
+				() -> Assertions.assertEquals(HttpStatus.OK, pixResponse.getStatusCode())
+		);
+	}
+	
+	@Test
+	void deveRetornarUmaRespostaHttpBadRequestAoRealizarATransacaoComValorDePagamentoNuloOuNegativo()
+			throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		Field mensagemPagamentoNegativoOuNuloReflected = IntegracaoBancoApi.class.getDeclaredField("PAGAMENTO_VALOR_NEGATIVO_NULO");
+		mensagemPagamentoNegativoOuNuloReflected.setAccessible(true);
+		String mensagemPagamentoNegativoOuNulo = (String) mensagemPagamentoNegativoOuNuloReflected.get(null);
+		ResponseEntity<String> pixNuloResponse = IntegracaoBancoApi.realizaTransacaoPix(BigDecimal.ZERO);
+		ResponseEntity<String> pixNegativoResponse = IntegracaoBancoApi.realizaTransacaoPix(BigDecimal.valueOf(-1));
+		Assertions.assertAll(
+				() -> Assertions.assertEquals(mensagemPagamentoNegativoOuNulo, pixNuloResponse.getBody()),
+				() -> Assertions.assertEquals(mensagemPagamentoNegativoOuNulo, pixNegativoResponse.getBody()),
+				() -> Assertions.assertEquals(HttpStatus.BAD_REQUEST, pixNuloResponse.getStatusCode()),
+				() -> Assertions.assertEquals(HttpStatus.BAD_REQUEST, pixNegativoResponse.getStatusCode())
+		);
+	}
 }
