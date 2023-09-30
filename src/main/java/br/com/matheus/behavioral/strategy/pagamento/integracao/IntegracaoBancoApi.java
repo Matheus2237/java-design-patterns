@@ -18,8 +18,7 @@ public class IntegracaoBancoApi {
 			
 			Pagamento realizado!
 			  Valor pago: R$ %.2f
-			  Modalidade: %s
-			""";
+			  Modalidade: %s""";
 	
 	
 	private static final String TIPO_PAGAMENTO_INVALIDO = "Tipo de pagamento informado é inválido para essa requisição.";

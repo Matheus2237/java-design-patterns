@@ -12,8 +12,7 @@ public class Dinheiro implements PagamentoStrategy {
 			
 			Pagamento realizado!
 			  Valor pago: R$ %.2f
-			  Modalidade: Dinheiro
-			""";
+			  Modalidade: Dinheiro""";
 
     @Override
     public void processar(BigDecimal valor) {
