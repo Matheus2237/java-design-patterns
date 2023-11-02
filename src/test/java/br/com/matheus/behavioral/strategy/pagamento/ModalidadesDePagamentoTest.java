@@ -1,6 +1,8 @@
 package br.com.matheus.behavioral.strategy.pagamento;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+
 import org.junit.jupiter.api.Test;
 
 import br.com.matheus.behavioral.strategy.pagamento.estrategias.CartaoDeCredito;
@@ -12,10 +14,10 @@ class ModalidadesDePagamentoTest {
 
 	@Test
 	void deveRetornarUmObjetoInstanciadoDaClasseReferenteAoMetodo() {
-		Assertions.assertAll("Assertivas para instancias das classes",
-				() -> Assertions.assertInstanceOf(CartaoDeCredito.class, ModalidadesDePagamento.cartaoDeCredito()),
-				() -> Assertions.assertInstanceOf(CartaoDeDebito.class, ModalidadesDePagamento.cartaoDeDebito()),
-				() -> Assertions.assertInstanceOf(Dinheiro.class, ModalidadesDePagamento.dinheiro()),
-				() -> Assertions.assertInstanceOf(Pix.class, ModalidadesDePagamento.pix()));
+		assertAll("Assertivas para instancias das classes",
+				() -> assertInstanceOf(CartaoDeCredito.class, ModalidadesDePagamento.cartaoDeCredito()),
+				() -> assertInstanceOf(CartaoDeDebito.class, ModalidadesDePagamento.cartaoDeDebito()),
+				() -> assertInstanceOf(Dinheiro.class, ModalidadesDePagamento.dinheiro()),
+				() -> assertInstanceOf(Pix.class, ModalidadesDePagamento.pix()));
 	}
 }

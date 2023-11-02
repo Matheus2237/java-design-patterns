@@ -1,13 +1,15 @@
 package br.com.matheus.behavioral.strategy.pagamento;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import br.com.matheus.behavioral.strategy.pagamento.estrategias.PagamentoStrategy;
@@ -23,25 +25,29 @@ class ProcessadorDePagamentoTest {
 	private AutoCloseable mocks; 
 	
 	@BeforeEach
-	void setUp() { this.mocks = MockitoAnnotations.openMocks(this); }
+	void setUp() {
+		this.mocks = MockitoAnnotations.openMocks(this);
+	}
 	
 	@AfterEach
-	void tearDown() throws Exception { this.mocks.close(); }
+	void tearDown() throws Exception {
+		this.mocks.close();
+	}
 	
 	@Test
 	void deveExecutarUmaChamadaParaOMetodoProcessarDaPagamentoStrategyAoChamarOMetodoProcessar() {
 		ProcessadorDePagamento.processar(bigDecimalMock, pagamentoStrategyMock);
-		Mockito.verify(pagamentoStrategyMock).processar(bigDecimalMock);
+		verify(pagamentoStrategyMock).processar(bigDecimalMock);
 	}
 	
 	@Test
 	void deveLancarUmaConstraintViolationExceptionAoPassarUmParamtroNuloAoMetodoProcessar() {
-		Assertions.assertAll(
-				() -> Assertions.assertThrows(NullPointerException.class,
+		assertAll("Lançamento de exceção com passagem de parâmetros nulos.",
+				() -> assertThrows(NullPointerException.class,
 						() -> ProcessadorDePagamento.processar(null, pagamentoStrategyMock)),
-				() -> Assertions.assertThrows(NullPointerException.class,
+				() -> assertThrows(NullPointerException.class,
 						() -> ProcessadorDePagamento.processar(bigDecimalMock, null)),
-				() -> Assertions.assertThrows(NullPointerException.class,
+				() -> assertThrows(NullPointerException.class,
 						() -> ProcessadorDePagamento.processar(null, null)));
 	}
 }

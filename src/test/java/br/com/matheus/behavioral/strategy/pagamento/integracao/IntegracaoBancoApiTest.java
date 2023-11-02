@@ -1,9 +1,11 @@
 package br.com.matheus.behavioral.strategy.pagamento.integracao;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
@@ -24,12 +26,11 @@ class IntegracaoBancoApiTest {
 		String mensagemSucessoProessamento = (String) mensagemSucessoProessamentoReflected.get(null);
 		ResponseEntity<String> cartaoCreditoResponse = IntegracaoBancoApi.realizaTransacaoCartao(BigDecimal.TEN, Mockito.mock(CartaoDeCredito.class));
 		ResponseEntity<String> cartaoDebitoResponse = IntegracaoBancoApi.realizaTransacaoCartao(BigDecimal.TEN, Mockito.mock(CartaoDeDebito.class));
-		Assertions.assertAll(
-				() -> Assertions.assertEquals(mensagemSucessoProessamento, cartaoCreditoResponse.getBody()),
-				() -> Assertions.assertEquals(mensagemSucessoProessamento, cartaoDebitoResponse.getBody()),
-				() -> Assertions.assertEquals(HttpStatus.OK, cartaoCreditoResponse.getStatusCode()),
-				() -> Assertions.assertEquals(HttpStatus.OK, cartaoDebitoResponse.getStatusCode())
-		);
+		assertAll(
+				() -> assertEquals(mensagemSucessoProessamento, cartaoCreditoResponse.getBody()),
+				() -> assertEquals(mensagemSucessoProessamento, cartaoDebitoResponse.getBody()),
+				() -> assertEquals(HttpStatus.OK, cartaoCreditoResponse.getStatusCode()),
+				() -> assertEquals(HttpStatus.OK, cartaoDebitoResponse.getStatusCode()));
 	}
 	
 	@Test
@@ -40,12 +41,11 @@ class IntegracaoBancoApiTest {
 		String mensagemTipoPagamentoInvalido = (String) mensagemTipoPagamentoInvalidoReflected.get(null);
 		ResponseEntity<String> dinheiroResponse = IntegracaoBancoApi.realizaTransacaoCartao(BigDecimal.TEN, Mockito.mock(Dinheiro.class));
 		ResponseEntity<String> pixResponse = IntegracaoBancoApi.realizaTransacaoCartao(BigDecimal.TEN, Mockito.mock(Pix.class));
-		Assertions.assertAll(
-				() -> Assertions.assertEquals(mensagemTipoPagamentoInvalido, dinheiroResponse.getBody()),
-				() -> Assertions.assertEquals(mensagemTipoPagamentoInvalido, pixResponse.getBody()),
-				() -> Assertions.assertEquals(HttpStatus.BAD_REQUEST, dinheiroResponse.getStatusCode()),
-				() -> Assertions.assertEquals(HttpStatus.BAD_REQUEST, pixResponse.getStatusCode())
-		);
+		assertAll(
+				() -> assertEquals(mensagemTipoPagamentoInvalido, dinheiroResponse.getBody()),
+				() -> assertEquals(mensagemTipoPagamentoInvalido, pixResponse.getBody()),
+				() -> assertEquals(HttpStatus.BAD_REQUEST, dinheiroResponse.getStatusCode()),
+				() -> assertEquals(HttpStatus.BAD_REQUEST, pixResponse.getStatusCode()));
 	}
 	
 	@Test
@@ -55,10 +55,9 @@ class IntegracaoBancoApiTest {
 		mensagemSucessoProessamentoReflected.setAccessible(true);
 		String mensagemSucessoProessamento = (String) mensagemSucessoProessamentoReflected.get(null);
 		ResponseEntity<String> pixResponse = IntegracaoBancoApi.realizaTransacaoPix(BigDecimal.TEN);
-		Assertions.assertAll(
-				() -> Assertions.assertEquals(mensagemSucessoProessamento, pixResponse.getBody()),
-				() -> Assertions.assertEquals(HttpStatus.OK, pixResponse.getStatusCode())
-		);
+		assertAll(
+				() -> assertEquals(mensagemSucessoProessamento, pixResponse.getBody()),
+				() -> assertEquals(HttpStatus.OK, pixResponse.getStatusCode()));
 	}
 	
 	@Test
@@ -69,11 +68,10 @@ class IntegracaoBancoApiTest {
 		String mensagemPagamentoNegativoOuNulo = (String) mensagemPagamentoNegativoOuNuloReflected.get(null);
 		ResponseEntity<String> pixNuloResponse = IntegracaoBancoApi.realizaTransacaoPix(BigDecimal.ZERO);
 		ResponseEntity<String> pixNegativoResponse = IntegracaoBancoApi.realizaTransacaoPix(BigDecimal.valueOf(-1));
-		Assertions.assertAll(
-				() -> Assertions.assertEquals(mensagemPagamentoNegativoOuNulo, pixNuloResponse.getBody()),
-				() -> Assertions.assertEquals(mensagemPagamentoNegativoOuNulo, pixNegativoResponse.getBody()),
-				() -> Assertions.assertEquals(HttpStatus.BAD_REQUEST, pixNuloResponse.getStatusCode()),
-				() -> Assertions.assertEquals(HttpStatus.BAD_REQUEST, pixNegativoResponse.getStatusCode())
-		);
+		assertAll(
+				() -> assertEquals(mensagemPagamentoNegativoOuNulo, pixNuloResponse.getBody()),
+				() -> assertEquals(mensagemPagamentoNegativoOuNulo, pixNegativoResponse.getBody()),
+				() -> assertEquals(HttpStatus.BAD_REQUEST, pixNuloResponse.getStatusCode()),
+				() -> assertEquals(HttpStatus.BAD_REQUEST, pixNegativoResponse.getStatusCode()));
 	}
 }

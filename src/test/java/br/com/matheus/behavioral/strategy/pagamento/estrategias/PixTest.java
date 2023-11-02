@@ -1,5 +1,7 @@
 package br.com.matheus.behavioral.strategy.pagamento.estrategias;
 
+import static org.mockito.Mockito.when;
+
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.AfterEach;
@@ -40,7 +42,7 @@ class PixTest {
 			integracaoBancoApiMock
 						.when(() -> IntegracaoBancoApi.realizaTransacaoPix(BigDecimal.TEN))
 						.thenReturn(responseEntityMock);
-			Mockito.when(responseEntityMock.getBody()).thenReturn("");
+			when(responseEntityMock.getBody()).thenReturn("");
 			pix.processar(BigDecimal.TEN);
 			integracaoBancoApiMock.verify(() -> IntegracaoBancoApi.realizaTransacaoPix(BigDecimal.TEN));
 		}
